@@ -23,6 +23,7 @@ const TextForm = (props) => {
   );
 }
 
+const maxTextLength = 50;
 class App extends Component {
   constructor(props) {
     super(props);
@@ -45,15 +46,29 @@ class App extends Component {
   }
 
   onChangeTopText(e) {
-    this.setState({
-      topText: e.target.value
-    });
+    if (e.target.value.length >= maxTextLength) {
+      this.setState({
+        topText: this.state.topText
+      });
+    } 
+    else {
+      this.setState({
+        topText: e.target.value
+      });
+    }
   }
 
   onChangeBottomText(e) {
-    this.setState({
-      bottomText: e.target.value
-    });
+    if (e.target.value.length >= maxTextLength) {
+      this.setState({
+        bottomText: this.state.bottomText
+      });
+    } 
+    else {
+      this.setState({
+        bottomText: e.target.value
+      });
+    }
   }
 
   onSubmit(e) {
