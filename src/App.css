@@ -10,9 +10,8 @@ body {
   width: 100%;
 }
 
-#topText{
+#topText, #bottomText {
   position: absolute;
-  top: 2%;
   right: 0%;
   left: 0%;
   font-size: 24pt;
@@ -20,14 +19,12 @@ body {
   overflow-wrap: break-word;
 }
 
-#bottomText{
-  position: absolute;
+#bottomText {
   bottom: 2%;
-  right: 0%;
-  left: 0%;
-  font-size: 24pt;
-  color: white;
-  overflow-wrap: break-word;
+}
+
+#topText {
+  top: 2%;
 }
 
 
