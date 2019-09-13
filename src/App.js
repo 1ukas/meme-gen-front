@@ -5,6 +5,24 @@ import './App.css';
 
 import ImageDragAndDrop from './components/ImageDragAndDrop';
 
+const TextForm = (props) => {
+  return (
+    <form onSubmit={props.onSubmit}>
+      <div className="form-group">
+        <label>Top text:</label>
+        <input type="text" className="form-control" value={props.topText} onChange={props.onChangeTopText} />
+      </div>
+      <div className="form-group">
+        <label>Bottom text:</label>
+        <input type="text" className="form-control" value={props.bottomText} onChange={props.onChangeBottomText} />
+      </div>
+      <div className="form-group">
+        <input type="submit" value="Generate" className="btn btn-light" />
+      </div>
+    </form>
+  );
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +57,7 @@ class App extends Component {
   }
 
   onSubmit(e) {
-
+    e.preventDefault();
   }
 
   render() {
@@ -49,30 +67,23 @@ class App extends Component {
           <div className="col-4">
             <h1>Meme Generator</h1>
             {this.state.imgSrc !== null ? 
-              <div className="imagePreview justify-content-center">
-                <img src={this.state.imgSrc} alt=""/>
-                <h2 id="topText">{this.state.topText}</h2>
-                <h2 id="bottomText">{this.state.bottomText}</h2>
+              <div>
+                <div className="imagePreview">
+                  <img src={this.state.imgSrc} alt=""/>
+                  <h2 id="topText">{this.state.topText}</h2>
+                  <h2 id="bottomText">{this.state.bottomText}</h2>
+                </div>
+                <TextForm onSubmit={this.onSubmit} 
+                          topText={this.state.topText} 
+                          bottomText={this.state.bottomText}
+                          onChangeTopText={this.onChangeTopText} 
+                          onChangeBottomText={this.onChangeBottomText} />
               </div> :
               <ImageDragAndDrop setImage = {this.setImage} />}
-            <form onSubmit={this.onSubmit}>
-              <div className="form-group">
-                <label>Top text:</label>
-                <input type="text" className="form-control" value={this.state.topText} onChange={this.onChangeTopText} />
-              </div>
-              <div className="form-group">
-                <label>Bottom text:</label>
-                <input type="text" className="form-control" value={this.state.bottomText} onChange={this.onChangeBottomText} />
-              </div>
-              <div className="form-group">
-                <input type="submit" value="Generate" className="btn btn-light" />
-              </div>
-            </form>
           </div>
         </div>
       </div>
     );
   }
 }
-
 export default App;
