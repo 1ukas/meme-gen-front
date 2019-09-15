@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { save } from 'save-file';
 
 import './App.css';
 
@@ -37,7 +38,8 @@ class App extends Component {
       imgPreview: null,
       imgFile: null,
       topText: "",
-      bottomText: ""
+      bottomText: "",
+      imgDownloaded: null
     }
   }
 
@@ -87,13 +89,25 @@ class App extends Component {
     data.set('topText', this.state.topText);
     data.set('bottomText', this.state.bottomText);
 
-    axios.post("http://localhost:4000/memeapi", data,
+    axios.post("https://radiant-sands-79517.herokuapp.com/memeapi", data,
     {
       headers: {'content-type': `multipart/form-data; boundary=${data._boundary}`, }
     }
     )
     .then((res) => {
-      console.log(res.data);
+      console.log(res);
+      this.setState ({
+        imgDownloaded: res.data._streams[1]
+      });
+      const split = res.data._streams[1].split(',')[0];
+      let fileExtension = '';
+      if (split.includes('png')) {
+        fileExtension = '.png';
+      }
+      else {
+        fileExtension = '.jpeg';
+      }
+      save(this.state.imgDownloaded, 'generated-meme' + fileExtension);
     })
     .catch((err) => {
       console.log(err);
@@ -127,7 +141,7 @@ class App extends Component {
                       topText={this.state.topText} 
                       bottomText={this.state.bottomText}
                       onChangeTopText={this.onChangeTopText} 
-                      onChangeBottomText={this.onChangeBottomText} /> 
+                      onChangeBottomText={this.onChangeBottomText} />
           </div> : null}
         </div>
       </div>
