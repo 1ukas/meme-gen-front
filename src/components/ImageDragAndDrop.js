@@ -35,11 +35,12 @@ const rejectStyle = {
 const maxImageSize = 5242880; // max image size 5MB
 const acceptedFileTypes = ['image/jpeg', 'image/png'];
 
-const ReadImage = (image, setImage) => {
+const ReadImage = (image, setImagePreview, setImageFile) => {
     const reader = new FileReader();
     reader.addEventListener("load", () => {
         //console.log(reader.result);
-        setImage(reader.result);
+        setImageFile(image);
+        setImagePreview(reader.result);
     }, false);
     reader.readAsDataURL(image);
 }
@@ -58,7 +59,7 @@ const VerifyFile = (file) => {
 const ImageDragAndDrop = (props) => {
     const onDropAccepted = useCallback(acceptedFiles => {
         console.log(acceptedFiles);
-        ReadImage(acceptedFiles[0], props.setImage);
+        ReadImage(acceptedFiles[0], props.setImagePreview, props.setImageFile);
     }, []);
 
     const onDropRejected = useCallback(rejectedFiles => {
@@ -66,7 +67,8 @@ const ImageDragAndDrop = (props) => {
         VerifyFile(rejectedFiles[0]);
     }, []);
 
-    const { isDragActive, getRootProps, getInputProps, isDragReject, isDragAccept, acceptedFiles, rejectedFiles } = useDropzone({
+    const { isDragActive, getRootProps, getInputProps, isDragReject, 
+            isDragAccept, acceptedFiles, rejectedFiles } = useDropzone({
         onDropAccepted,
         onDropRejected,
         accept: acceptedFileTypes,
