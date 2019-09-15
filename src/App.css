@@ -5,29 +5,56 @@ body {
 
 .imagePreview {
   position: relative;
+  display: inline-block;
+  overflow: hidden;
 }
 
 .imagePreview img {
-  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+@media only screen and (max-width: 576px) {
+  #topText, #bottomText {
+    font-size: 16pt;
+  }
+}
+
+@media only screen and (min-width: 576px) {
+  #topText, #bottomText {
+    font-size: 24pt;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  #topText, #bottomText {
+    font-size: 28pt;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  #topText, #bottomText {
+    font-size: 32pt;
+  }
 }
 
 #topText, #bottomText {
   position: absolute;
   right: 0%;
   left: 0%;
-  font-size: 24pt;
   color: white;
   overflow-wrap: break-word;
+  /* text outline: */
   text-shadow: -1px -1px 0 #000,
                 1px -1px 0 #000,
                -1px  1px 0 #000,
                 1px  1px 0 #000
 }
 
+/* margins: */
 #bottomText {
   bottom: 2%;
 }
-
 #topText {
   top: 2%;
 }
