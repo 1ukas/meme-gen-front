@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { Route } from 'react-router-dom';
+import axios from 'axios';
 
 import './App.css';
 
@@ -27,26 +27,34 @@ const maxTextLength = 50;
 class App extends Component {
   constructor(props) {
     super(props);
-    this.setImage = this.setImage.bind(this);
+    this.setImagePreview = this.setImagePreview.bind(this);
+    this.setImageFile = this.setImageFile.bind(this);
     this.onChangeTopText = this.onChangeTopText.bind(this);
     this.onChangeBottomText = this.onChangeBottomText.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      imgSrc: null,
+      imgPreview: null,
+      imgFile: null,
       topText: "",
       bottomText: ""
     }
   }
 
-  setImage(image) {
+  setImageFile(imageFile) {
     this.setState({
-      imgSrc: image
+      imgFile: imageFile
+    });
+  }
+
+  setImagePreview(image) {
+    this.setState({
+      imgPreview: image
     });
   }
 
   onChangeTopText(e) {
-    if (e.target.value.length >= maxTextLength) {
+    if (e.target.value.length-1 >= maxTextLength) {
       this.setState({
         topText: this.state.topText
       });
@@ -59,7 +67,7 @@ class App extends Component {
   }
 
   onChangeBottomText(e) {
-    if (e.target.value.length >= maxTextLength) {
+    if (e.target.value.length-1 >= maxTextLength) {
       this.setState({
         bottomText: this.state.bottomText
       });
@@ -73,29 +81,54 @@ class App extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+
+    let data = new FormData();
+    data.append('file', this.state.imgPreview);
+    data.set('topText', this.state.topText);
+    data.set('bottomText', this.state.bottomText);
+
+    axios.post("http://localhost:4000/memeapi", data,
+    {
+      headers: {'content-type': `multipart/form-data; boundary=${data._boundary}`, }
+    }
+    )
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   render() {
     return(
       <div className="App">
         <div className="row justify-content-center text-center">
-          <div className="col-4">
+          <div className="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-6">
             <h1>Meme Generator</h1>
-            {this.state.imgSrc !== null ? 
-              <div>
-                <div className="imagePreview">
-                  <img src={this.state.imgSrc} alt=""/>
+            {this.state.imgPreview !== null ? 
+              <div className="imagePreview">
+                <img src={this.state.imgPreview} alt=""/>
+                <div className="inside">
                   <h2 id="topText">{this.state.topText}</h2>
                   <h2 id="bottomText">{this.state.bottomText}</h2>
                 </div>
-                <TextForm onSubmit={this.onSubmit} 
-                          topText={this.state.topText} 
-                          bottomText={this.state.bottomText}
-                          onChangeTopText={this.onChangeTopText} 
-                          onChangeBottomText={this.onChangeBottomText} />
               </div> :
-              <ImageDragAndDrop setImage = {this.setImage} />}
+              <ImageDragAndDrop 
+                          setImagePreview={this.setImagePreview}
+                          setImageFile={this.setImageFile} />}
           </div>
+        </div>
+        <div className="row justify-content-center text-center">
+          {this.state.imgPreview !== null ? 
+          <div className="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-6">
+            <p><i>this is just a preview, final image might have different word spacing</i></p>
+            <TextForm onSubmit={this.onSubmit} 
+                      topText={this.state.topText} 
+                      bottomText={this.state.bottomText}
+                      onChangeTopText={this.onChangeTopText} 
+                      onChangeBottomText={this.onChangeBottomText} /> 
+          </div> : null}
         </div>
       </div>
     );
