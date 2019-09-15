@@ -89,7 +89,7 @@ class App extends Component {
     data.set('topText', this.state.topText);
     data.set('bottomText', this.state.bottomText);
 
-    axios.post("https://radiant-sands-79517.herokuapp.com/memeapi", data,
+    axios.post("https://fast-badlands-54188.herokuapp.com/memeapi", data,
     {
       headers: {'content-type': `multipart/form-data; boundary=${data._boundary}`, }
     }
