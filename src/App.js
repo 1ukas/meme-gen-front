@@ -7,6 +7,7 @@ import './App.css';
 import ImageDragAndDrop from './components/ImageDragAndDrop';
 
 const TextForm = (props) => {
+  // Text input form template:
   return (
     <form onSubmit={props.onSubmit}>
       <div className="form-group">
@@ -24,29 +25,31 @@ const TextForm = (props) => {
   );
 }
 
+const GetImageFileType = (imageData) => {
+  // Gets the image file extension based on the image' meta-data:
+  if (imageData.includes('png')) {
+    return '.png';
+  }
+  else {
+    return '.jpeg';
+  }
+}
+
 const maxTextLength = 50;
 class App extends Component {
   constructor(props) {
     super(props);
     this.setImagePreview = this.setImagePreview.bind(this);
-    this.setImageFile = this.setImageFile.bind(this);
     this.onChangeTopText = this.onChangeTopText.bind(this);
     this.onChangeBottomText = this.onChangeBottomText.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       imgPreview: null,
-      imgFile: null,
       topText: "",
       bottomText: "",
       imgDownloaded: null
     }
-  }
-
-  setImageFile(imageFile) {
-    this.setState({
-      imgFile: imageFile
-    });
   }
 
   setImagePreview(image) {
@@ -56,6 +59,7 @@ class App extends Component {
   }
 
   onChangeTopText(e) {
+    // handle top text data on change:
     if (e.target.value.length-1 >= maxTextLength) {
       this.setState({
         topText: this.state.topText
@@ -69,6 +73,7 @@ class App extends Component {
   }
 
   onChangeBottomText(e) {
+    // Handle bottom text data on change:
     if (e.target.value.length-1 >= maxTextLength) {
       this.setState({
         bottomText: this.state.bottomText
@@ -84,30 +89,30 @@ class App extends Component {
   onSubmit(e) {
     e.preventDefault();
 
+    // prepare the image and text data that is going to be sent to the backend:
     let data = new FormData();
     data.append('file', this.state.imgPreview);
     data.set('topText', this.state.topText);
     data.set('bottomText', this.state.bottomText);
 
+    // post the data to the backend:
     axios.post("https://fast-badlands-54188.herokuapp.com/memeapi", data,
     {
       headers: {'content-type': `multipart/form-data; boundary=${data._boundary}`, }
     }
     )
     .then((res) => {
-      console.log(res);
+      // console.log(res);
+
+      // set the returned image as the downloaded image:
       this.setState ({
         imgDownloaded: res.data._streams[1]
       });
-      const split = res.data._streams[1].split(',')[0];
-      let fileExtension = '';
-      if (split.includes('png')) {
-        fileExtension = '.png';
-      }
-      else {
-        fileExtension = '.jpeg';
-      }
-      save(this.state.imgDownloaded, 'generated-meme' + fileExtension);
+
+      // remove base64 meta-data:
+      const split = this.state.imgDownloaded.split(',')[0];
+      // get the image filetype and prompt user to save the file:
+      save(this.state.imgDownloaded, 'generated-meme' + GetImageFileType(split));
     })
     .catch((err) => {
       console.log(err);
@@ -134,9 +139,7 @@ class App extends Component {
                 </div>
                 <p><i>this is just a preview, the final image might have different word spacing</i></p>
               </div> :
-                <ImageDragAndDrop 
-                            setImagePreview={this.setImagePreview}
-                            setImageFile={this.setImageFile} />}
+                <ImageDragAndDrop setImagePreview={this.setImagePreview} />}
             </div>
             {this.state.imgPreview !== null ? 
               <div className="textForm col-11 col-sm-9 col-md-5 col-lg-4 col-xl-4">
@@ -146,17 +149,6 @@ class App extends Component {
                           onChangeTopText={this.onChangeTopText} 
                           onChangeBottomText={this.onChangeBottomText} />
               </div> : null}
-          </div>
-          <div className="row justify-content-center text-center">
-            {/* {this.state.imgPreview !== null ? 
-            <div className="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-6">
-              <p><i>this is just a preview, final image might have different word spacing</i></p>
-              <TextForm onSubmit={this.onSubmit} 
-                        topText={this.state.topText} 
-                        bottomText={this.state.bottomText}
-                        onChangeTopText={this.onChangeTopText} 
-                        onChangeBottomText={this.onChangeBottomText} />
-            </div> : null} */}
           </div>
         </div>
       </div>

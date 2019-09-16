@@ -2,8 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import { useDropzone } from 'react-dropzone';
 
-//import './css/ImageDragAndDrop.css';
-
+// Image dropzone styles:
 const baseStyle = {
     flex: 1,
     display: 'flex',
@@ -33,42 +32,50 @@ const rejectStyle = {
 };
 
 const maxImageSize = 5242880; // max image size 5MB
-const acceptedFileTypes = ['image/jpeg', 'image/png'];
+const acceptedFileTypes = ['image/jpeg', 'image/png']; // only accept jpeg/png
 
-const ReadImage = (image, setImagePreview, setImageFile) => {
+const ReadImage = (image, setImagePreview) => {
+    // Read the uploaded image as a base64 blob and sets in the parents state:
     const reader = new FileReader();
     reader.addEventListener("load", () => {
-        //console.log(reader.result);
-        setImageFile(image);
         setImagePreview(reader.result);
     }, false);
     reader.readAsDataURL(image);
 }
 
 const VerifyFile = (file) => {
-    if (file.size > maxImageSize) {
-        alert('Image size is too big!');
-        return;
-    }
-    if (!(file.type in acceptedFileTypes)) {
+    // Verify the image and alert the user if is it invalid:
+    if (!acceptedFileTypes.includes(file.type)) {
         alert('Unsupported file type!');
-        return;
+        return false;
+    }
+    else if (file.size > maxImageSize) {
+        alert('Image size is too big!');
+        return false;
+    }
+    else {
+        // return true if the image is acceptable:
+        return true;
     }
 }
 
 const ImageDragAndDrop = (props) => {
     const onDropAccepted = useCallback(acceptedFiles => {
-        console.log(acceptedFiles);
-        ReadImage(acceptedFiles[0], props.setImagePreview, props.setImageFile);
+        // Handle accepted images:
+        // console.log(acceptedFiles);
+        if (VerifyFile(acceptedFiles[0])) {
+            ReadImage(acceptedFiles[0], props.setImagePreview);
+        }
     }, []);
 
     const onDropRejected = useCallback(rejectedFiles => {
-        console.log(rejectedFiles);
+        // Handle rejected images:
+        // console.log(rejectedFiles);
         VerifyFile(rejectedFiles[0]);
     }, []);
 
     const { isDragActive, getRootProps, getInputProps, isDragReject, 
-            isDragAccept, acceptedFiles, rejectedFiles } = useDropzone({
+            isDragAccept } = useDropzone({
         onDropAccepted,
         onDropRejected,
         accept: acceptedFileTypes,
