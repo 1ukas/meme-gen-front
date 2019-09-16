@@ -117,45 +117,47 @@ class App extends Component {
   render() {
     return(
       <div className="App">
-        <div className="row justify-content-center text-center" id="heading">
-          <h1>Meme Generator</h1>
-        </div>
-        <div className="row justify-content-center text-center">
-          <div className="col-11 col-sm-9 col-md-6 col-lg-6 col-xl-5">
-            {this.state.imgPreview !== null ? 
-            <div>
-              <div className="imagePreview">
-                <img src={this.state.imgPreview} alt=""/>
-                <div>
-                  <h2 id="topText">{this.state.topText}</h2>
-                  <h2 id="bottomText">{this.state.bottomText}</h2>
-                </div>
-              </div>
-              <p><i>this is just a preview, the final image might have different word spacing</i></p>
-            </div> :
-              <ImageDragAndDrop 
-                          setImagePreview={this.setImagePreview}
-                          setImageFile={this.setImageFile} />}
+        <div className="container">
+          <div className="row justify-content-center text-center" id="heading">
+            <h1>Meme Generator</h1>
           </div>
-          {this.state.imgPreview !== null ? 
-            <div className="textForm col-11 col-sm-9 col-md-5 col-lg-4 col-xl-4">
+          <div className="row justify-content-center text-center">
+            <div className="col-11 col-sm-9 col-md-6 col-lg-6 col-xl-5">
+              {this.state.imgPreview !== null ? 
+              <div>
+                <div className="imagePreview">
+                  <img src={this.state.imgPreview} alt=""/>
+                  <div>
+                    <h2 id="topText">{this.state.topText}</h2>
+                    <h2 id="bottomText">{this.state.bottomText}</h2>
+                  </div>
+                </div>
+                <p><i>this is just a preview, the final image might have different word spacing</i></p>
+              </div> :
+                <ImageDragAndDrop 
+                            setImagePreview={this.setImagePreview}
+                            setImageFile={this.setImageFile} />}
+            </div>
+            {this.state.imgPreview !== null ? 
+              <div className="textForm col-11 col-sm-9 col-md-5 col-lg-4 col-xl-4">
+                <TextForm onSubmit={this.onSubmit} 
+                          topText={this.state.topText} 
+                          bottomText={this.state.bottomText}
+                          onChangeTopText={this.onChangeTopText} 
+                          onChangeBottomText={this.onChangeBottomText} />
+              </div> : null}
+          </div>
+          <div className="row justify-content-center text-center">
+            {/* {this.state.imgPreview !== null ? 
+            <div className="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-6">
+              <p><i>this is just a preview, final image might have different word spacing</i></p>
               <TextForm onSubmit={this.onSubmit} 
                         topText={this.state.topText} 
                         bottomText={this.state.bottomText}
                         onChangeTopText={this.onChangeTopText} 
                         onChangeBottomText={this.onChangeBottomText} />
-            </div> : null}
-        </div>
-        <div className="row justify-content-center text-center">
-          {/* {this.state.imgPreview !== null ? 
-          <div className="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-6">
-            <p><i>this is just a preview, final image might have different word spacing</i></p>
-            <TextForm onSubmit={this.onSubmit} 
-                      topText={this.state.topText} 
-                      bottomText={this.state.bottomText}
-                      onChangeTopText={this.onChangeTopText} 
-                      onChangeBottomText={this.onChangeBottomText} />
-          </div> : null} */}
+            </div> : null} */}
+          </div>
         </div>
       </div>
     );
