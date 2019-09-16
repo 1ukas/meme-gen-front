@@ -94,7 +94,7 @@ const ImageDragAndDrop = (props) => {
                 {!isDragActive &&
                 <div>
                     <p><b>Drag an image in or click to upload</b></p>
-                    <p style={{fontSize: 12}}>(5MB max file size)</p>
+                    <p style={{fontSize: 12}}>(5MB max, png/jpeg only)</p>
                 </div>}
                 {isDragActive && !isDragReject && "Drop the image here..."}
                 {isDragReject && "Unsupported file type"}
