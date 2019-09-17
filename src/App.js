@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { save } from 'save-file';
+import Loader from 'react-loader-spinner';
 
 import './App.css';
 
@@ -35,6 +36,13 @@ const GetImageFileType = (imageData) => {
   }
 }
 
+const LoadingSpinner = (props) => {
+  // Spinner to indicate loading:
+  return (
+    <Loader id="loader" type="TailSpin" color="#f8f9fa" width="50" height="50" />
+  );
+}
+
 const maxTextLength = 50;
 class App extends Component {
   constructor(props) {
@@ -48,7 +56,8 @@ class App extends Component {
       imgPreview: null,
       topText: "",
       bottomText: "",
-      imgDownloaded: null
+      imgDownloaded: null,
+      isLoading: false
     }
   }
 
@@ -99,9 +108,15 @@ class App extends Component {
     axios.post("https://fast-badlands-54188.herokuapp.com/memeapi", data,
     {
       headers: {'content-type': `multipart/form-data; boundary=${data._boundary}`, }
-    }
+    },
+    this.setState({
+      isLoading: true
+    })
     )
     .then((res) => {
+      this.setState({
+        isLoading: false
+      })
       // console.log(res);
 
       // set the returned image as the downloaded image:
@@ -126,7 +141,7 @@ class App extends Component {
           <div className="row justify-content-center text-center" id="heading">
             <h1>Meme Generator</h1>
           </div>
-          <div className="row justify-content-center text-center">
+          <div className="inner row justify-content-center text-center">
             <div className="col-11 col-sm-9 col-md-6 col-lg-6 col-xl-5">
               {this.state.imgPreview !== null ? 
               <div>
@@ -143,11 +158,12 @@ class App extends Component {
             </div>
             {this.state.imgPreview !== null ? 
               <div className="textForm col-11 col-sm-9 col-md-5 col-lg-4 col-xl-4">
+                {this.state.isLoading ? <LoadingSpinner /> :
                 <TextForm onSubmit={this.onSubmit} 
                           topText={this.state.topText} 
                           bottomText={this.state.bottomText}
                           onChangeTopText={this.onChangeTopText} 
-                          onChangeBottomText={this.onChangeBottomText} />
+                          onChangeBottomText={this.onChangeBottomText} /> }
               </div> : null}
           </div>
         </div>
