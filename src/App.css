@@ -1,128 +1,159 @@
-body {
-  background-color: #626869;
-  color: white;
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700|Open+Sans:400,600&display=swap');
+
+:root {
+  /* 
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace; 
+  */
+  
+  
+  --font-family-sans-serif: 'Open Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  --font-family-serif: 'Lato',sans-serif;
+  --font-family-text: var(--font-family-serif);
 }
 
-.imagePreview {
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-family-sans-serif);
+}
+
+body p {
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.site-header {
+  font-family: var(--font-family-text);
+}
+.site-header h1 {
+  font-size: 2.20rem;
+}
+
+.row-parent {
+  font-size: 0;
+}
+
+.image-window {
   position: relative;
   display: inline-block;
+  text-align: center;
   overflow: hidden;
-  max-width: 500px;
-  max-height: 500px;
-}
-
-.imagePreview img {
-  max-width: 500px;
-  max-height: 500px;
-}
-
-.textForm {
-  max-width: 500px;
-  max-height: 500px;
-}
-
-#heading h1{
-  padding-top: 2%;
-  padding-bottom: 2%;
-}
-
-@media only screen and (max-width: 576px) {
-  #topText, #bottomText {
-    font-size: 22pt;
-  }
-
-  #heading h1 {
-    font-size: 24pt;
-  }
-
-  .imagePreview img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-}
-
-@media only screen and (min-width: 576px) {
-  #topText, #bottomText {
-    font-size: 24pt;
-  }
-
-  #heading h1 {
-    font-size: 32pt;
-  }
-
-  .imagePreview img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  #topText, #bottomText {
-    font-size: 28pt;
-  }
-
-  #heading h1 {
-    font-size: 40pt;
-  }
-
-  .imagePreview img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-
-  .inner{
-    display: flex;
-    align-items: center;
-  }
-
-  .textForm {
-    padding-left: 5%;
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  #topText, #bottomText {
-    font-size: 32pt;
-  }
-
-  #heading h1 {
-    font-size: 48pt;
-  }
-
-  .inner{
-    display: flex;
-    align-items: center;
-  }
-
-  .textForm {
-    padding-left: 5%;
-  }
-
-  .imagePreview img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-}
-
-#topText, #bottomText {
-  position: absolute;
-  right: 0%;
-  left: 0%;
   color: white;
-  overflow-wrap: break-word;
-  /* text outline: */
   text-shadow: -1px -1px 0 #000,
                 1px -1px 0 #000,
                -1px  1px 0 #000,
-                1px  1px 0 #000
+                1px  1px 0 #000;
+  max-width: 500px;
+  max-height: 500px;
 }
 
-/* margins: */
-#bottomText {
-  bottom: 2%;
+.image-window img {
+  max-width: 100%;
+  max-height: 100%;
 }
-#topText {
+
+.image-text h2 {
+  font-size: 1.75rem;
+}
+
+#image-top-text {
+  position: absolute;
+  overflow-wrap: break-word;
+  right: 2%;
+  left: 2%;
   top: 2%;
 }
 
+#image-bottom-text {
+  position: absolute;
+  overflow-wrap: break-word;
+  right: 2%;
+  left: 2%;
+  bottom: 2%;
+}
 
+.text-input-form {
+  max-width: 500px;
+  max-height: 500px;
+}
+
+.text-input-form input {
+  font-size: 1rem;
+}
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  text-align: center;  
+}
+
+:-ms-input-placeholder {  
+  text-align: center; 
+}
+
+.site-footer p {
+  font-size: 12px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.site-footer i {
+  font-size: 16px;
+}
+
+@media (max-width: 576px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 576px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  html {
+    font-size : 24px;
+  }
+
+  .text-input-form {
+    padding-bottom: 2.25rem;
+  }
+}

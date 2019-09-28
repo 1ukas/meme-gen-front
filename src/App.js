@@ -11,17 +11,15 @@ const TextForm = (props) => {
   // Text input form template:
   return (
     <form onSubmit={props.onSubmit}>
-      <div className="form-group">
-        <label>Top text:</label>
-        <input type="text" className="form-control" value={props.topText} onChange={props.onChangeTopText} />
-      </div>
-      <div className="form-group">
-        <label>Bottom text:</label>
-        <input type="text" className="form-control" value={props.bottomText} onChange={props.onChangeBottomText} />
-      </div>
-      <div className="form-group">
-        <input type="submit" value="Generate" className="btn btn-light" />
-      </div>
+      <section className="form-group">
+        <input type="text" className="form-control" placeholder="Top text" value={props.topText} onChange={props.onChangeTopText} />
+      </section>
+      <section className="form-group">
+        <input type="text" className="form-control" placeholder="Bottom text" value={props.bottomText} onChange={props.onChangeBottomText} />
+      </section>
+      <section className="form-group">
+        <input type="submit" value="Generate" className="btn btn-dark" />
+      </section>
     </form>
   );
 }
@@ -39,7 +37,7 @@ const GetImageFileType = (imageData) => {
 const LoadingSpinner = (props) => {
   // Spinner to indicate loading:
   return (
-    <Loader id="loader" type="TailSpin" color="#f8f9fa" width="50" height="50" />
+    <Loader id="loader" type="TailSpin" color="#000000" width="75" height="75" />
   );
 }
 
@@ -136,37 +134,52 @@ class App extends Component {
 
   render() {
     return(
-      <div className="App">
-        <div className="container">
-          <div className="row justify-content-center text-center" id="heading">
-            <h1>Meme Generator</h1>
-          </div>
-          <div className="inner row justify-content-center text-center">
-            <div className="col-11 col-sm-9 col-md-6 col-lg-6 col-xl-5">
-              {this.state.imgPreview !== null ? 
-              <div>
-                <div className="imagePreview">
-                  <img src={this.state.imgPreview} alt=""/>
-                  <div>
-                    <h2 id="topText">{this.state.topText}</h2>
-                    <h2 id="bottomText">{this.state.bottomText}</h2>
+      <div>
+        <header className="site-header container justify-content-center text-center my-4">
+          <h1>Meme Generator</h1>
+        </header>
+
+        <article className="container">
+          {
+            this.state.imgPreview !== null ?
+              <div className="row no-gutters justify-content-center text-center">
+                <section className="row-parent col-11 col-lg-6">
+                  <div className="image-window">
+                    <img src={this.state.imgPreview} alt="" />
+                    <div className="image-text">
+                      <h2 id="image-top-text">{this.state.topText}</h2>
+                      <h2 id="image-bottom-text">{this.state.bottomText}</h2>
+                    </div>
                   </div>
-                </div>
-                <p><i>this is just a preview, the final image might have different word spacing</i></p>
+                  <p><i>this is just a preview, the final image might have different word spacing</i></p>
+                </section>
+
+                <section className="text-input-form mx-auto my-auto col-11 col-lg-5">
+                  {
+                    this.state.isLoading ?
+                    <LoadingSpinner /> :
+                    <TextForm onSubmit={this.onSubmit} 
+                              topText={this.state.topText} 
+                              bottomText={this.state.bottomText}
+                              onChangeTopText={this.onChangeTopText} 
+                              onChangeBottomText={this.onChangeBottomText} />
+                  }
+                </section>
               </div> :
-                <ImageDragAndDrop setImagePreview={this.setImagePreview} />}
-            </div>
-            {this.state.imgPreview !== null ? 
-              <div className="textForm col-11 col-sm-9 col-md-5 col-lg-4 col-xl-4">
-                {this.state.isLoading ? <LoadingSpinner /> :
-                <TextForm onSubmit={this.onSubmit} 
-                          topText={this.state.topText} 
-                          bottomText={this.state.bottomText}
-                          onChangeTopText={this.onChangeTopText} 
-                          onChangeBottomText={this.onChangeBottomText} /> }
-              </div> : null}
-          </div>
-        </div>
+            <section className="row mb-4 justify-content-center text-center">
+              <div className="col-11 col-lg-6">
+                <ImageDragAndDrop setImagePreview={this.setImagePreview} />              
+              </div>
+            </section>
+          }
+        </article>
+
+        <footer className="site-footer mt-2 justify-content-center text-center">
+          <section>
+            <p>Meme generator by <a href="https://github.com/fanta232">fanta232</a></p>
+            <p>Open-sourced on <a href="https://github.com/fanta232/meme-gen-front"><i class="fab fa-github"></i></a></p>
+          </section>
+        </footer>
       </div>
     );
   }

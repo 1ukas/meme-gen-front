@@ -13,8 +13,8 @@ const baseStyle = {
     borderRadius: 2,
     borderColor: '#949a9f',
     borderStyle: 'dashed',
-    backgroundColor: '#43474b',
-    color: '#bdbdbd',
+    backgroundColor: '#ffffff',
+    color: '#000000',
     outline: 'none',
     transition: 'border .24s ease-in-out'
 };
@@ -95,7 +95,7 @@ const ImageDragAndDrop = (props) => {
     ]);
 
     return (
-        <div className = "container">
+        <div className="container">
             <div {...getRootProps({style})}>
                 <input {...getInputProps()} />
                 {!isDragActive &&
