@@ -41,6 +41,17 @@ const LoadingSpinner = (props) => {
   );
 }
 
+const AlertBox = (props) => {
+  return (
+    <div className="alert-window alert alert-danger alert-dismissible fade show" role="alert">
+      <h4>You should type something in :)</h4>
+      <button type="button" className="close  align-middle" data-dismiss="alert" aria-label="Close" onClick={props.onHideAlert}>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  );
+}
+
 const maxTextLength = 50;
 class App extends Component {
   constructor(props) {
@@ -48,6 +59,7 @@ class App extends Component {
     this.setImagePreview = this.setImagePreview.bind(this);
     this.onChangeTopText = this.onChangeTopText.bind(this);
     this.onChangeBottomText = this.onChangeBottomText.bind(this);
+    this.onHideAlert = this.onHideAlert.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
@@ -55,7 +67,8 @@ class App extends Component {
       topText: "",
       bottomText: "",
       imgDownloaded: null,
-      isLoading: false
+      isLoading: false,
+      showAlert: false
     }
   }
 
@@ -93,8 +106,27 @@ class App extends Component {
     }
   }
 
+  onHideAlert(e) {
+    this.setState({
+      showAlert: false
+    });
+  }
+
   onSubmit(e) {
     e.preventDefault();
+
+    // handle empty text inputs:
+    if (this.state.topText.length <= 0 && this.state.bottomText.length <= 0) {
+      this.setState({
+        showAlert: true
+      });
+      return;
+    }
+    else {
+      this.setState({
+        showAlert: false
+      });
+    }
 
     // prepare the image and text data that is going to be sent to the backend:
     let data = new FormData();
@@ -158,11 +190,16 @@ class App extends Component {
                   {
                     this.state.isLoading ?
                     <LoadingSpinner /> :
-                    <TextForm onSubmit={this.onSubmit} 
-                              topText={this.state.topText} 
-                              bottomText={this.state.bottomText}
-                              onChangeTopText={this.onChangeTopText} 
-                              onChangeBottomText={this.onChangeBottomText} />
+                    <div>
+                      {
+                        this.state.showAlert && <AlertBox onHideAlert={this.onHideAlert}/>
+                      }
+                      <TextForm onSubmit={this.onSubmit} 
+                                topText={this.state.topText} 
+                                bottomText={this.state.bottomText}
+                                onChangeTopText={this.onChangeTopText} 
+                                onChangeBottomText={this.onChangeBottomText} />
+                    </div>
                   }
                 </section>
               </div> :
