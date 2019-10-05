@@ -95,18 +95,20 @@ const ImageDragAndDrop = (props) => {
     ]);
 
     return (
-        <div className="container">
-            <div {...getRootProps({style})}>
-                <input {...getInputProps()} />
-                {!isDragActive &&
-                <div>
-                    <p><b>Drag an image in or click to upload</b></p>
-                    <p style={{fontSize: 12}}>(5MB max, png/jpeg only)</p>
-                </div>}
-                {isDragActive && !isDragReject && "Drop the image here..."}
-                {isDragReject && "Unsupported file type"}
+        <section className="row mb-4 justify-content-center text-center">
+            <div className="col-11 col-lg-6">
+                <div {...getRootProps({style})}>
+                    <input {...getInputProps()} />
+                    {!isDragActive &&
+                        <div>
+                            <p><b>Drag an image in or click to upload</b></p>
+                            <p style={{fontSize: 12}}>(5MB max, png/jpeg only)</p>
+                        </div>}
+                    {isDragActive && !isDragReject && "Drop the image here..."}
+                    {isDragReject && "Unsupported file type"}
+                </div>
             </div>
-        </div>
+        </section>
     );
 }
 
