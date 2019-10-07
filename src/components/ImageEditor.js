@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Loader from 'react-loader-spinner';
 
 import ImageDragAndDrop from './ImageDragAndDrop';
+import TextForm from './TextForm';
 
 const ImageWindow = (props) => {
     return(
-        <section className="row-parent col-11 col-lg-6">
+        <section className="col-11 col-lg-6">
             <div className="image-window">
                 <img src={props.window.imgUploaded} alt="" />
                 <div className="image-text">
@@ -81,7 +81,7 @@ class ImageEditor extends Component {
                     <div className="row no-gutters justify-content-center text-center">
                         <ImageWindow window={window} />
 
-                        <TextForm textForm={textForm} isLoading={this.props.isLoading}/>
+                        <TextForm textForm={textForm} isLoading={this.props.isLoading} imageEditingForm={true}/>
                     </div>
                     :
                     <ImageDragAndDrop setImagePreview={this.onSetImageUploaded} /> 
@@ -91,76 +91,3 @@ class ImageEditor extends Component {
     }
 }
 export default ImageEditor;
-
-class TextForm extends Component {
-    constructor(props) {
-        super(props);
-        this.onHideAlert = this.onHideAlert.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-
-        this.state = {
-            showAlert: false
-        }
-    }
-
-    onHideAlert(e) {
-        this.setState({ showAlert: false });        
-    }
-
-    onSubmit(e) {
-        e.preventDefault();
-
-        // handle empty text inputs:
-        if (this.props.textForm.topText.length > 0 || this.props.textForm.bottomText.length > 0) {
-            this.setState({ showAlert: false });
-            this.props.textForm.onPrepareData();
-        }
-        else {
-            this.setState({ showAlert: true });
-            return;
-        }
-    }
-
-    render() {
-        return(
-            <section className="text-input-form mx-auto my-auto col-11 col-lg-5">
-                {
-                    this.props.isLoading ?
-                    <LoadingSpinner /> :
-                    <div>
-                        {this.state.showAlert && <AlertBox onHideAlert={this.onHideAlert} />}
-                        <form onSubmit={this.onSubmit}>
-                            <section className="form-group">
-                                <input type="text" className="form-control" placeholder="Top text" value={this.props.textForm.topText} onChange={(e) => this.props.textForm.onChangeText(e, true)} />
-                            </section>
-                            <section className="form-group">
-                                <input type="text" className="form-control" placeholder="Bottom text" value={this.props.textForm.bottomText} onChange={(e) => this.props.textForm.onChangeText(e, false)} />
-                            </section>
-                            <section className="form-group">
-                                <input type="submit" value="Generate" className="btn btn-dark" />
-                            </section>
-                        </form>
-                    </div>
-                }
-            </section>    
-        );
-    }
-}
-
-const AlertBox = (props) => {
-    return (
-      <div className="alert-window alert alert-danger alert-dismissible fade show" role="alert">
-        <h4>You should type something in :)</h4>
-        <button type="button" className="close  align-middle" data-dismiss="alert" aria-label="Close" onClick={props.onHideAlert}>
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    );
-}
-
-const LoadingSpinner = (props) => {
-    // Spinner to indicate loading:
-    return (
-      <Loader id="loader" type="TailSpin" color="#000000" width="75" height="75" />
-    );
-}
