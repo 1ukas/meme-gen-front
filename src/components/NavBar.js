@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import  { Link } from 'react-router-dom';
 
 class NavBar extends Component {
 	render() {
@@ -8,9 +9,7 @@ class NavBar extends Component {
 
 					<div className="container-fluid">
 
-						<a className="navbar-brand" href="#page-hero">
-							Meme Generator
-            </a>
+            <Link className="navbar-brand" to="/">Meme Generator</Link>
 
 						<button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#site-navbar-toggle"
 							aria-controls="#site-navbar-toggle" aria-label="Toggle Navigation">
@@ -19,8 +18,8 @@ class NavBar extends Component {
 
 						<section className="collapse navbar-collapse" id="site-navbar-toggle">
 							<div className="navbar-nav ml-auto">
-								<a className="nav-item nav-link" href="#page-hero">Create</a>
-								<a className="nav-item nav-link" href="#page-hero">Explore</a>
+                <Link className="nav-item nav-link" to="/">Create</Link>
+                <Link className="nav-item nav-link" to="/explore">Explore</Link>
 							</div>
 						</section>
 
