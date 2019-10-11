@@ -30,7 +30,7 @@ const ImageWindow = (props) => {
 }
 
 const maxTextLength = 50;
-const auditImageURL = "http://localhost:5001/meme-gen-7aecd/us-central1/auditImage";
+const auditImageURL = "https://europe-west2-meme-gen-7aecd.cloudfunctions.net/auditImage ";
 class ImageEditor extends Component {
 	constructor(props) {
 		super(props);
