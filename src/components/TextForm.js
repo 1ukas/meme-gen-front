@@ -133,6 +133,6 @@ const ImageUploadForm = (props) => {
 const LoadingSpinner = (props) => {
 	// Spinner to indicate loading:
 	return (
-		<Loader id="loader" type="TailSpin" color="#000000" width="75" height="75" />
+		<Loader id="loader" type="TailSpin" color="#000000" width={60} height={60} />
 	);
 }
