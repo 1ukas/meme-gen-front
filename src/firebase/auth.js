@@ -9,8 +9,8 @@ auth.signInAnonymously().catch((error) => {
 auth.onAuthStateChanged((user) => {
   if (user) {
     console.log('User signed in');
-    const isAnonymous = user.isAnonymous;
-    const uid = user.id;
+    // const isAnonymous = user.isAnonymous;
+    // const uid = user.id;
   }
   else {
     console.log('User is signed out');

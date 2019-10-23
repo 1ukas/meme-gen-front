@@ -9,15 +9,15 @@ import Home from './components/Home';
 import Explore from './components/Explore';
 
 class App extends Component {
-	render() {
-		return (
-			<div>
-				<NavBar />
-				<Route exact path="/" component={Home} />
+  render() {
+    return (
+      <div>
+        <NavBar />
+        <Route exact path="/" component={Home} />
         <Route path="/explore" component={Explore} />
-				<Footer />
-			</div>
-		);
-	}
+        <Footer />
+      </div>
+    );
+  }
 }
 export default App;
